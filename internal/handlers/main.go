@@ -1,14 +1,12 @@
 package handlers
 
-import(
-	"net/http"
+import (
 	"html/template"
+	"net/http"
 )
 
-
-
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	session, _ := store.Get(r, "session-name")
+	session, _ := Store.Get(r, "session-name")
 
 	auth, ok := session.Values["authenticated"].(bool)
 	if !ok || !auth {
