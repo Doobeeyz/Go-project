@@ -3,12 +3,13 @@ package handlers
 import (
 	"html/template"
 	"net/http"
+
+	"projectMod/internal/database"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
-var users = map[string]string{}
-
 func RegistrationPage(w http.ResponseWriter, r *http.Request) {
-
 	tmpl := template.Must(template.ParseFiles("web/templates/registrationPage.html"))
 	tmpl.Execute(w, nil)
 }
@@ -22,12 +23,22 @@ func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 
-	if _, exist := users[username]; exist {
-		http.Error(w, "Пользователь уже существует", http.StatusConflict)
+	if username == "" || password == "" {
+		http.Error(w, "Введите имя пользователя и пароль", http.StatusBadRequest)
 		return
 	}
 
-	users[username] = password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		http.Error(w, "Ошибка при шифровании пароля", http.StatusInternalServerError)
+		return
+	}
+
+	_, err = database.DB.Exec("INSERT INTO users (username, password) VALUES ($1, $2)", username, string(hashedPassword))
+	if err != nil {
+		http.Error(w, "Ошибка регистрации пользователя", http.StatusInternalServerError)
+		return
+	}
 
 	session, _ := Store.Get(r, "session-name")
 	session.Values["authenticated"] = true

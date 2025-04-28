@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"projectMod/internal/database"
 	"projectMod/internal/routes"
 
 	"github.com/joho/godotenv"
@@ -17,6 +18,9 @@ func init() {
 }
 
 func main() {
+
+	database.Init()
+
 	r := routes.NewRouter()
 
 	fmt.Println("server is running on port: 8080")
