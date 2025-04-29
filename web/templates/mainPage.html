@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Главная страница</title>
+    <link rel="stylesheet" href="/static/css/login.css">
 </head>
 <body>
-    <h1>Добро пожаловать на главную страницу!</h1>
-    <form action="/logout" method="POST">
-        <button type="submit">Выйти</button>
-    </form>
+    <div class="login-container">
+        <div class="login-box">
+            <img src="/static/logo.png" alt="Логотип" class="logo">
+            <h1>Добро пожаловать!</h1>
+            <p style="margin-bottom: 30px; font-size: 16px; color: #444;">Вы успешно вошли в систему.</p>
+
+            <form action="/logout" method="POST">
+                <button type="submit">Выйти</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
