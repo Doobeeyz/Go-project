@@ -1,0 +1,154 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fef3e2;
+    color: #333;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    color: #e53935;
+}
+
+.header-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 20px 30px;
+    background-color: #fff8e1;
+    border-bottom: 2px solid #ffcc00;
+}
+
+.header-buttons form {
+    margin: 0;
+}
+
+.header-buttons button {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.header-buttons button:hover {
+    background-color: #d32f2f;
+}
+
+.movie-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px;
+}
+
+.movie-card {
+    background-color: #ffffff;
+    border: 2px solid #ffcc00;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    padding: 20px;
+    width: 280px;
+    text-align: center;
+    transition: transform 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
+
+.movie-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.movie-card h2 {
+    font-size: 20px;
+    color: #e53935;
+    margin: 10px 0;
+}
+
+.movie-card p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.delete-movie {
+    margin-top: 10px;
+}
+
+.delete-movie button {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-movie button:hover {
+    background-color: #d32f2f;
+}
+
+.movie-detail {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 2px solid #ffcc00;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.movie-detail h1 {
+    font-size: 28px;
+    color: #e53935;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.movie-detail img {
+    max-width: 100%;
+    border-radius: 6px;
+    margin: 20px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.movie-detail p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+.movie-detail .delete-form {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.movie-detail .delete-form button {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.movie-detail .delete-form button:hover {
+    background-color: #d32f2f;
+}

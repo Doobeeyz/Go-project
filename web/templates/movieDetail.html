@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="/static/css/movieDitails.css">
+
+</head>
+<body>
+    <header class="header-buttons">
+        <form action="/main" method="GET">
+            <button type="submit">Назад</button>
+        </form>
+    </header>
+
+    <div class="movie-detail">
+        <h1>{{.Title}} ({{.ReleaseYear}})</h1>
+        <img src="{{.PosterURL}}" alt="Постер" style="max-width: 300px;"><br><br>
+        <p><strong>Режиссер:</strong> {{.Director}}</p>
+        <p><strong>Жанр:</strong> {{.Genre}}</p>
+        <p><strong>Описание:</strong> {{.Description}}</p>
+        {{if .TrailerURL}}
+            <p><a href="{{.TrailerURL}}" target="_blank">Смотреть трейлер</a></p>
+        {{end}}
+    </div>
+</body>
+</html>

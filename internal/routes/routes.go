@@ -22,5 +22,11 @@ func NewRouter() *mux.Router {
 	r.HandleFunc("/registration", handlers.RegistrationPage).Methods("GET")
 	r.HandleFunc("/registration", handlers.RegistrationHandler).Methods("POST")
 
+	//movies
+	r.HandleFunc("/add-movie", handlers.AddMoviePage).Methods("GET")
+	r.HandleFunc("/add-movie", handlers.AddMovieHandler).Methods("POST")
+	r.HandleFunc("/delete-movie", handlers.DeleteMovieHandler).Methods("POST")
+	r.HandleFunc("/movie/{id}", handlers.MovieDetailHandler).Methods("GET")
+
 	return r
 }
