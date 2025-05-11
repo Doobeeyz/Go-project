@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+    {{if .Flash}}
+    <script>
+        alert("{{.Flash}}");
+    </script>
+    {{end}}
+</head>
+<body>
+    <h1>Профиль пользователя {{.Username}}</h1>
+
+    <form method="POST" action="/change-username">
+        <input type="text" name="newUsername"  placeholder="{{.Username}}" required><br><br>
+        <button type="submit">Изменить</button>
+    </form>
+
+    <h2>Смена пароля</h2>
+    <form method="POST" action="/change-password">
+        <label>Старый пароль:</label><br>
+        <input type="password" name="oldPassword" required><br>
+        <label>Новый пароль:</label><br>
+        <input type="password" name="newPassword" required><br><br>
+        <button type="submit">Сменить пароль</button>
+    </form>
+    
+    <form action="/logout" method="POST">
+        <button type="submit">Выйти</button>
+    </form>
+</body>
+</html>

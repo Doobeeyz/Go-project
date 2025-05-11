@@ -2,9 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{{.Title}}</title>
-    <link rel="stylesheet" href="/static/css/movieDitails.css">
-
+    <title>{{.Movie.Title}}</title>
+    <link rel="stylesheet" href="/static/css/movieDetails.css">
 </head>
 <body>
     <header class="header-buttons">
@@ -14,14 +13,31 @@
     </header>
 
     <div class="movie-detail">
-        <h1>{{.Title}} ({{.ReleaseYear}})</h1>
-        <img src="{{.PosterURL}}" alt="Постер" style="max-width: 300px;"><br><br>
-        <p><strong>Режиссер:</strong> {{.Director}}</p>
-        <p><strong>Жанр:</strong> {{.Genre}}</p>
-        <p><strong>Описание:</strong> {{.Description}}</p>
-        {{if .TrailerURL}}
-            <p><a href="{{.TrailerURL}}" target="_blank">Смотреть трейлер</a></p>
-        {{end}}
+        <h1>{{.Movie.Title}} ({{.Movie.ReleaseYear}})</h1>
+        <img src="{{.Movie.PosterURL}}" alt="Постер" style="max-width: 300px;"><br><br>
+        <p><strong>Режиссер:</strong> {{.Movie.Director}}</p>
+        <p><strong>Жанр:</strong> {{.Movie.Genre}}</p>
+        <p><strong>Описание:</strong> {{.Movie.Description}}</p>
+        {{if .Movie.TrailerURL}}
+            <iframe width="700" height="500" src="{{.Movie.TrailerURL}}" title="Трейлер" frameborder="0" allowfullscreen></iframe>
+        {{end}}<br><br>
+
+        <hr/>
+
+    <form action="/comment/{{.Movie.ID}}" method="POST">
+        <textarea name="content" rows="4" cols="50" placeholder="Оставить отзыв" required></textarea><br><br>
+        <button type="submit">Отправить</button>
+    </form>
+
+    <h2>Комментарии</h2>
+    {{range .Comments}}
+        <div class="comment">
+            <strong>{{.Username}}</strong> - {{.CreatedAt.Format "02 Jan 2006 15:04"}}
+            <p>{{.Content}}</p>
+        </div>
+    {{else}}
+        <p>Комментарии отсутствуют</p>
+    {{end}}
     </div>
 </body>
 </html>

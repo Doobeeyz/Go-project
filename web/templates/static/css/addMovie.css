@@ -19,14 +19,14 @@ form {
 }
 
 h1 {
-    padding: 20px;
+    padding: 1vh;
     text-align: center;
     color: #e53935;
-    margin-bottom: 25px;
+    margin-bottom: 2vh;
 }
 
 div {
-    margin-bottom: 20px;
+    margin-bottom: 1vh;
 }
 
 label {
@@ -40,11 +40,11 @@ input[type="text"],
 input[type="number"],
 textarea {
     width: 93%;
-    padding: 10px;
+    padding: 1vh;
     border: 2px solid #ffcc00;
     border-radius: 6px;
     background-color: #fff8e1;
-    font-size: 16px;
+    font-size: 12px;
     resize: vertical;
 }
 
