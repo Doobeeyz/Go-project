@@ -1,0 +1,26 @@
+<h1>Управление ролями</h1>
+
+<table>
+  <tr>
+    <th>ID</th><th>Имя пользователя</th><th>Роль</th><th>Изменить</th>
+  </tr>
+  {{range .}}
+  <tr>
+    <td>{{.ID}}</td>
+    <td>{{.Username}}</td>
+    <td>{{.Role}}</td>
+    <td>
+        <form method="POST" action="/admin/roles/change">
+            <input type="hidden" name="user_id" value="{{.ID}}">
+            <select name="role_id">
+                <option value="1">Пользователь</option>
+                <option value="2">Админ</option>
+                <option value="3">Суперадмин</option>
+            </select>
+            <button type="submit">Изменить</button>
+        </form>
+        
+    </td>
+  </tr>
+  {{end}}
+</table>

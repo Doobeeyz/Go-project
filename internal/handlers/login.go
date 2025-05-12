@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 
@@ -41,6 +42,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	session.Values["authenticated"] = true
 	session.Values["username"] = username
 	session.Save(r, w)
+	fmt.Println("LOGIN SESSION:", session.Values)
 
 	http.Redirect(w, r, "/main", http.StatusSeeOther)
 }

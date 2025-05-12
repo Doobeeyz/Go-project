@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Любимые фильмы</title>
+    <link rel="stylesheet" href="/static/css/mainPage.css">
+</head>
+<body>
+
+
+    <h1>Избранные фильмы</h1>
+
+<header class="header-buttons">
+    <form action="/main" method="GET">
+        <button type="submit">Назад</button>
+    </form>
+</header>
+<div class="movie-container">
+    {{range .Favorites}}
+    <a href="/movie/{{.ID}}">
+        <div class="movie-card">
+            <img src="{{.PosterURL}}" alt="Постер"><br>
+            <h2>{{.Title}} ({{.ReleaseYear}})</h2>
+            <p><strong>Жанр:</strong> {{.Genre}}</p>
+            <p>{{.Description}}</p>
+            <form action="/favorites/remove/{{.ID}}" method="POST" class="delete-movie">
+                <button type="submit">Удалить из избранного</button>
+            </form>
+        </div>
+    </a>
+    
+    {{else}}
+    <p>Избранных фильмов нет.</p>
+    {{end}}
+</div>
+
+</body>
+</html>

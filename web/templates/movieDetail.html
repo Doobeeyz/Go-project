@@ -24,6 +24,10 @@
 
         <hr/>
 
+        <form action="/favorites/add/{{.Movie.ID}}" method="POST">
+            <button type="submit">Добавить в любимое</button>
+        </form>
+
     <form action="/comment/{{.Movie.ID}}" method="POST">
         <textarea name="content" rows="4" cols="50" placeholder="Оставить отзыв" required></textarea><br><br>
         <button type="submit">Отправить</button>

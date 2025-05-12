@@ -8,38 +8,47 @@
 <body>
 
     <header class="header-buttons">
+
+        {{if ge .RoleID 2}}
         <form action="/add-movie" method="GET">
             <button type="submit">Добавить фильм</button>
         </form>
+        {{end}}
 
         <form action="/profile" method="GET">
             <button type="submit">Профиль</button>
         </form>
-        
+
+        <form action="/favorites" method="GET">
+            <button type="submit">Любимые фильмы</button>
+        </form>
+
         <form action="/logout" method="POST">
             <button type="submit">Выйти</button>
         </form>
-
     </header>
-    
+
     <h1>Фильмы</h1>
     <div class="movie-container">
-        {{range .}}
-           <a href="/movie/{{.ID}}">
+        {{range .Movies}}
+        <a href="/movie/{{.ID}}">
+            <div class="movie-card">
+                <img src="{{.PosterURL}}" alt="Постер"><br>
+                <h2>{{.Title}} ({{.ReleaseYear}})</h2>
+                <p><strong>Жанр:</strong> {{.Genre}}</p>
+                <p>{{.Description}}</p>
 
-                <div class="movie-card">
-                    <img src="{{.PosterURL}}" alt="Постер"><br>
-                    <h2>{{.Title}} ({{.ReleaseYear}})</h2>
-                    <p><strong>Жанр:</strong> {{.Genre}}</p>
-                    <p>{{.Description}}</p>
-                    <form action="/delete-movie" method="POST" class="delete-movie">
-                        <input type="hidden" name="id" value="{{.ID}}">
-                        <button type="submit">Удалить</button>
-                    </form>
-                </div>
-            </a>
+                {{if eq $.RoleID 3}}
+                <form action="/delete-movie" method="POST" class="delete-movie">
+                    <input type="hidden" name="id" value="{{.ID}}">
+                    <button type="submit">Удалить</button>
+                </form>
+                {{end}}
+
+            </div>
+        </a>
         {{else}}
-            <p>Фильмы не найдены.</p>
+        <p>Фильмы не найдены.</p>
         {{end}}
     </div>
 

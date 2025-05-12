@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"net/http"
 	"projectMod/internal/database"
-	"time"
+	"projectMod/internal/models"
 
 	"github.com/gorilla/mux"
 )
@@ -15,16 +15,7 @@ func MovieDetailHandler(w http.ResponseWriter, r *http.Request) {
 
 	row := database.DB.QueryRow(`SELECT id, title, description, director, release_year, genre, poster_url, trailer_url FROM movies WHERE id = $1`, id)
 
-	var movie struct {
-		ID          int
-		Title       string
-		Description string
-		Director    string
-		ReleaseYear int
-		Genre       string
-		PosterURL   string
-		TrailerURL  string
-	}
+	movie := models.Movie{}
 
 	err := row.Scan(&movie.ID, &movie.Title, &movie.Description, &movie.Director, &movie.ReleaseYear, &movie.Genre, &movie.PosterURL, &movie.TrailerURL)
 	if err != nil {
@@ -44,18 +35,11 @@ func MovieDetailHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer rows.Close()
 
-	var comments []struct {
-		Content   string
-		CreatedAt time.Time
-		Username  string
-	}
+	var comments []models.Comment
 
 	for rows.Next() {
-		var comment struct {
-			Content   string
-			CreatedAt time.Time
-			Username  string
-		}
+		var comment models.Comment
+
 		if err := rows.Scan(&comment.Content, &comment.CreatedAt, &comment.Username); err != nil {
 			http.Error(w, "Ошибка при загрузке комментариев", http.StatusInternalServerError)
 			return
@@ -65,12 +49,8 @@ func MovieDetailHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl := template.Must(template.ParseFiles("web/templates/movieDetail.html"))
 	tmpl.Execute(w, struct {
-		Movie    interface{}
-		Comments []struct {
-			Content   string
-			CreatedAt time.Time
-			Username  string
-		}
+		Movie    models.Movie
+		Comments []models.Comment
 	}{
 		Movie:    movie,
 		Comments: comments,
@@ -109,5 +89,3 @@ func AddCommentHandler(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/movie/"+movieID, http.StatusSeeOther)
 }
-
-
