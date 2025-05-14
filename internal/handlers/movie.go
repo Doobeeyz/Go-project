@@ -1,14 +1,25 @@
 package handlers
 
-import(
+import (
 	"html/template"
 	"net/http"
 	"projectMod/internal/database"
+	"strings"
 )
 
 func AddMoviePage(w http.ResponseWriter, r *http.Request){
 	tmpl := template.Must(template.ParseFiles("web/templates/addMoviePage.html"))
 	tmpl.Execute(w, nil)
+}
+
+func convertToEmbedLink(link string) string {
+	if idx := strings.Index(link, "&"); idx != -1 {
+		link = link[:idx]
+	}
+
+	link = strings.Replace(link, "watch?v=", "embed/", 1)
+
+	return link
 }
 
 func AddMovieHandler(w http.ResponseWriter, r *http.Request) {
@@ -24,6 +35,8 @@ func AddMovieHandler(w http.ResponseWriter, r *http.Request) {
 	genre := r.FormValue("genre")
 	posterURL := r.FormValue("poster_url")
 	trailerURL := r.FormValue("trailer_url")
+
+	trailerURL = convertToEmbedLink(trailerURL)
 
 	_, err := database.DB.Exec(`
 		INSERT INTO movies (title, description, director, release_year, genre, poster_url, trailer_url) 

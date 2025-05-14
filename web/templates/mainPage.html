@@ -15,6 +15,12 @@
         </form>
         {{end}}
 
+        {{if ge .RoleID 3}}
+        <form action="/admin/roles" method="GET">
+            <button type="submit">Пользователи</button>
+        </form>
+        {{end}}
+
         <form action="/profile" method="GET">
             <button type="submit">Профиль</button>
         </form>

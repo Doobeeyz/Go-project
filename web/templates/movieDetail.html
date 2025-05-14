@@ -13,27 +13,39 @@
     </header>
 
     <div class="movie-detail">
-        <h1>{{.Movie.Title}} ({{.Movie.ReleaseYear}})</h1>
-        <img src="{{.Movie.PosterURL}}" alt="Постер" style="max-width: 300px;"><br><br>
-        <p><strong>Режиссер:</strong> {{.Movie.Director}}</p>
-        <p><strong>Жанр:</strong> {{.Movie.Genre}}</p>
-        <p><strong>Описание:</strong> {{.Movie.Description}}</p>
+        <div class="movie-info-container">
+            <img src="{{.Movie.PosterURL}}" alt="Постер">
+            <div class="movie-text">
+                <h1>{{.Movie.Title}} ({{.Movie.ReleaseYear}})</h1><br/>
+                <p><strong>Год производства:</strong> {{.Movie.ReleaseYear}}</p>
+                <p><strong>Режиссер:</strong> {{.Movie.Director}}</p>
+                <p><strong>Жанр:</strong> {{.Movie.Genre}}</p><br/>
+                <p><strong>Описание:</strong> {{.Movie.Description}}</p>
+            </div>
+        </div>
+
+        <form action="/favorites/add/{{.Movie.ID}}" method="POST">
+            <button type="submit">Добавить в любимое</button>
+        </form><br/>
+
         {{if .Movie.TrailerURL}}
-            <iframe width="700" height="500" src="{{.Movie.TrailerURL}}" title="Трейлер" frameborder="0" allowfullscreen></iframe>
+            <div class="trailer-wrapper">
+                <iframe width="800" height="450" src="{{.Movie.TrailerURL}}" title="Трейлер" frameborder="0" allowfullscreen></iframe>
+            </div>
         {{end}}<br><br>
 
         <hr/>
 
-        <form action="/favorites/add/{{.Movie.ID}}" method="POST">
-            <button type="submit">Добавить в любимое</button>
+        <h2>Комментарии</h2>
+
+        <form action="/comment/{{.Movie.ID}}" method="POST" class="comment-form">
+            <div class="comment-input-group">
+                <textarea name="content" rows="4" placeholder="Оставить отзыв" required></textarea>
+                <button type="submit">Отправить</button>
+            </div>
         </form>
 
-    <form action="/comment/{{.Movie.ID}}" method="POST">
-        <textarea name="content" rows="4" cols="50" placeholder="Оставить отзыв" required></textarea><br><br>
-        <button type="submit">Отправить</button>
-    </form>
-
-    <h2>Комментарии</h2>
+    
     {{range .Comments}}
         <div class="comment">
             <strong>{{.Username}}</strong> - {{.CreatedAt.Format "02 Jan 2006 15:04"}}
@@ -45,3 +57,5 @@
     </div>
 </body>
 </html>
+
+
