@@ -42,8 +42,12 @@ func NewRouter() *mux.Router {
 	r.HandleFunc("/change-password", handlers.ChangePasswordHandler).Methods("POST")
 	r.HandleFunc("/change-username", handlers.ChangeUsernameHandler).Methods("POST")
 
+	//super admin
 	r.Handle("/admin/roles", middleware.RequireRoleID(3, http.HandlerFunc(handlers.SuperAdminRoleHandler))).Methods("GET")
 	r.HandleFunc("/admin/roles/change", handlers.ChangeUserRoleHandler).Methods("POST")
+	r.HandleFunc("/admin/users/toggle", handlers.ToggleUserActiveHandler).Methods("POST")
+	
+
 
 	return r
 }

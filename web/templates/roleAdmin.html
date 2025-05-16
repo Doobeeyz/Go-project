@@ -1,5 +1,8 @@
 <h1>Управление ролями</h1>
 
+<form action="/main" method="GET">
+  <button type="submit">Назад</button>
+</form>
 <table>
   <tr>
     <th>ID</th><th>Имя пользователя</th><th>Роль</th><th>Изменить</th>
@@ -9,6 +12,7 @@
     <td>{{.ID}}</td>
     <td>{{.Username}}</td>
     <td>{{.Role}}</td>
+    <td>{{if .Active}}Активен{{else}}Заблокирован{{end}}</td>
     <td>
         <form method="POST" action="/admin/roles/change">
             <input type="hidden" name="user_id" value="{{.ID}}">
@@ -19,8 +23,18 @@
             </select>
             <button type="submit">Изменить</button>
         </form>
-        
     </td>
+    <td>
+      <form method="POST" action="/admin/users/toggle">
+          <input type="hidden" name="user_id" value="{{.ID}}">
+          <input type="hidden" name="active" value="{{.Active}}">
+          {{if .Active}}
+          <button type="submit">Заблокировать</button>
+          {{else}}
+          <button type="submit">Разблокировать</button>
+          {{end}}
+      </form>
+  </td>
   </tr>
   {{end}}
 </table>

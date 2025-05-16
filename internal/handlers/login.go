@@ -25,10 +25,16 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	var storedPassword string
+	var active bool
 
-	err := database.DB.QueryRow("SELECT password FROM users WHERE username = $1", username).Scan(&storedPassword)
+	err := database.DB.QueryRow("SELECT password, active FROM users WHERE username = $1", username).Scan(&storedPassword, &active)
 	if err != nil {
 		http.Error(w, "Неверное имя пользователя или пароль", http.StatusUnauthorized)
+		return
+	}
+
+	if !active {
+		http.Error(w, "Пользователь заблокирован", http.StatusForbidden)
 		return
 	}
 
