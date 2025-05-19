@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"projectMod/internal/database"
@@ -10,6 +11,8 @@ import (
 type PageData struct {
 	RoleID int
 	Movies []models.Movie
+	Search string
+	Genre  string
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +22,28 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	var roleID int
 	_ = database.DB.QueryRow("SELECT role_id FROM users WHERE username = $1", username).Scan(&roleID)
 
-	rows, err := database.DB.Query("SELECT id, title, description, director, release_year, genre, poster_url FROM movies")
+	// Чтение параметров из формы поиска
+	search := r.URL.Query().Get("search")
+	genre := r.URL.Query().Get("genre")
+
+	query := "SELECT id, title, description, director, release_year, genre, poster_url FROM movies WHERE 1=1"
+	var args []interface{}
+
+	//фильтр по ключевым словам
+	if search != "" {
+		query += " AND (LOWER(title) LIKE LOWER($1) OR LOWER(description) LIKE LOWER($1))"
+		args = append(args, "%"+search+"%")
+	}
+
+	//фильтр по жанру
+	if genre != "" {
+		paramIndex := len(args) + 1
+		query += fmt.Sprintf(" AND LOWER(genre) LIKE LOWER($%d)", paramIndex)
+		args = append(args, "%"+genre+"%")
+	}
+
+	//выполнение запроса
+	rows, err := database.DB.Query(query, args...)
 	if err != nil {
 		http.Error(w, "Ошибка получения фильмов", http.StatusInternalServerError)
 		return
@@ -37,6 +61,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	data := PageData{
 		RoleID: roleID,
 		Movies: movies,
+		Search: search,
+		Genre:  genre,
 	}
 
 	tmpl := template.Must(template.ParseFiles("web/templates/mainPage.html"))

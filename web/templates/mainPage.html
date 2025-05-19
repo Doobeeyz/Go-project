@@ -35,6 +35,19 @@
     </header>
 
     <h1>Фильмы</h1>
+    <form method="GET" action="/main">
+    <input type="text" name="search" value="{{.Search}}" placeholder="Поиск">
+    <select name="genre">
+        <option value="">Все жанры</option>
+        <option value="драма" {{if eq .Genre "драма"}}selected{{end}}>Драма</option>
+        <option value="комедия" {{if eq .Genre "комедия"}}selected{{end}}>Комедия</option>
+        <option value="боевик" {{if eq .Genre "боевик"}}selected{{end}}>Боевик</option>
+        <option value="триллер" {{if eq .Genre "триллер"}}selected{{end}}>Триллер</option>
+        <option value="ужасы" {{if eq .Genre "ужасы"}}selected{{end}}>Ужасы</option>
+    </select>
+    <button type="submit">Найти</button>
+</form>
+
     <div class="movie-container">
         {{range .Movies}}
         <a href="/movie/{{.ID}}">
